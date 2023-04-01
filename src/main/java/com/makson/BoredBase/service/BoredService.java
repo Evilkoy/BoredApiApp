@@ -17,12 +17,12 @@ public class BoredService {
     public List<BoredDto> getActivities(int activitiesCount) {
         List<BoredDto> activitiesList = new ArrayList<>();
         for (int i = 0; i < activitiesCount; i++) {
-            boredClient.getBored().ifPresent(activitiesList::add);
+            boredClient.getDto().ifPresent(activitiesList::add);
         }
         return activitiesList;
     }
 
     public Optional<BoredDto> getBoredDto() {
-        return boredClient.getBored();
+        return boredClient.getDto();
     }
 }

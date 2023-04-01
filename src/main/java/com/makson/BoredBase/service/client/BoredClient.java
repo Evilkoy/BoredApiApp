@@ -4,17 +4,21 @@ import com.makson.BoredBase.dto.BoredDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BoredClient {
-    private static final String BORED_URL = "http://www.boredapi.com/api/activity";
+    private final WebClient webClient = WebClient.create();
 
-    private final RestTemplate restTemplate;
-
-    public Optional<BoredDto> getBored() {
-        return Optional.ofNullable(restTemplate.getForEntity(BORED_URL, BoredDto.class).getBody());
+    public Optional<BoredDto> getDto() {
+        return Optional.ofNullable(webClient
+                .get()
+                .uri("https://www.boredapi.com/api/activity")
+                .retrieve()
+                .bodyToMono(BoredDto.class)
+                .block());
     }
 }
